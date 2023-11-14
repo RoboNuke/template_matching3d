@@ -23,13 +23,52 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
 
-add_executable(view_pcd src/view_pcd.cpp)
-target_link_libraries( view_pcd
+add_executable(pub_pcd src/view_pcd.cpp)
+target_link_libraries( pub_pcd
   ${Boost_SYSTEM_LIBRARY}
   ${PCL_LIBRARIES}
 )
 
-ament_target_dependencies(view_pcd 
+ament_target_dependencies(pub_pcd 
+  rclcpp std_msgs 
+  sensor_msgs
+  pcl_conversions
+  tf2_geometry_msgs
+)
+
+add_executable(ObjRecRANSAC src/RosObjRecRANSAC.cpp)
+target_link_libraries( ObjRecRANSAC
+  ${Boost_SYSTEM_LIBRARY}
+  ${PCL_LIBRARIES}
+)
+
+ament_target_dependencies(ObjRecRANSAC 
+  rclcpp std_msgs 
+  sensor_msgs
+  pcl_conversions
+  tf2_geometry_msgs
+)
+
+add_executable(TabletopSegmentation src/tabletop_removal.cpp)
+target_link_libraries( TabletopSegmentation
+  ${Boost_SYSTEM_LIBRARY}
+  ${PCL_LIBRARIES}
+)
+
+ament_target_dependencies(TabletopSegmentation 
+  rclcpp std_msgs 
+  sensor_msgs
+  pcl_conversions
+  tf2_geometry_msgs
+)
+
+add_executable(PCLRegistration src/RosPCLRegistration.cpp)
+target_link_libraries( PCLRegistration
+  ${Boost_SYSTEM_LIBRARY}
+  ${PCL_LIBRARIES}
+)
+
+ament_target_dependencies(PCLRegistration 
   rclcpp std_msgs 
   sensor_msgs
   pcl_conversions
@@ -37,11 +76,22 @@ ament_target_dependencies(view_pcd
 )
 
 install(TARGETS
-  view_pcd
+  pub_pcd
+  ObjRecRANSAC
+  TabletopSegmentation
+  PCLRegistration
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
 
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

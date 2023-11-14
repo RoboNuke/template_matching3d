@@ -1,0 +1,19 @@
+PCLRegistration:
+  ros__parameters:
+    debug: True  
+    max_corr_dist: 0.05  
+    max_iterations: 50 
+    euclidean_fitness_epsilon: 0.001 
+    input_model: "/home/hunter/PiH_ws/src/template_matching3d/data/milk.pcd"
+    scene_topic: "filtered_cloud" 
+    debug_topic: "icp_debug" 
+    center_model: True 
+    initial_est: [ 1.0, 0.00159265, -0.00159265, -0.1, 0.00159265, -1.0, 0.0, -0.1,  -0.00159265, -2.53654e-06, -1.0, 0.8, 0.0, 0.0, 0.0, 1.0]
+
+TabletopSegmentation:
+  ros__parameters:
+    debug: True
+    maxZ: 1.0
+    inlier_dist: 0.01
+    input_topic: "point_cloud"
+    output_topic: "filtered_cloud"
